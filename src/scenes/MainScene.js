@@ -7,11 +7,8 @@ import { Panda } from "./../gameobjects/Panda";
 export class MainScene extends Scene {
 
     panda;
-    floor;
-
-    spaceKey;
-    leftKey;
-    rightKey;
+    ground;
+    map;
 
     constructor() {
         super("MainScene");
@@ -19,7 +16,9 @@ export class MainScene extends Scene {
 
     preload() {
         this.load.setPath("assets");
-        this.load.image("floor", "floor.png");
+
+        this.load.tilemapTiledJSON('stage', 'tiles/stage_1.json');
+        this.load.image('tiles', 'tiles/pixel_art.png');
 
         assetLoader(this, Panda)
     }
@@ -28,17 +27,27 @@ export class MainScene extends Scene {
 
         this.panda = new Panda({ scene: this });
         this.panda.start()
-
-        this.floor = this.physics.add.staticSprite(400, 500, 'floor');
-        this.floor.setScale(2).refreshBody()
-
-        this.physics.add.collider(this.panda, this.floor);
-
         this.cameras.main.startFollow(this.panda);
+
+        this.map = this.make.tilemap({ key: 'stage' });
+        const tileset = this.map.addTilesetImage('pixel_art', 'tiles');
+
+        this.ground = this.map.createLayer('ground', tileset);
+        this.ground.setCollisionByProperty({ collides: true });
+
+        this.physics.add.collider(this.panda, this.ground);
+
+        this.debugGraphics = this.add.graphics();
+        this.drawDebug();
     }
 
     update (time, delta) {
         this.panda.update()
+    }
+
+    drawDebug () {
+        this.debugGraphics.clear();
+        this.map.renderDebug(this.debugGraphics, { tileColor: null });
     }
 
 }
