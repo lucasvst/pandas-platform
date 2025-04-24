@@ -10,7 +10,7 @@ export class Panda extends Physics.Arcade.Sprite {
     rightKey;
 
     constructor({ scene }) {
-        super(scene, 100, 100, "panda_atlas");
+        super(scene, 100, 100, Panda.assets.atlas.key, "idle");
         this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
