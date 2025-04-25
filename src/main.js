@@ -8,7 +8,7 @@ const config = {
     parent: "phaser-container",
     width: 960,
     height: 540,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#5E81A2",
     pixelArt: true,
     roundPixel: false,
     max: {
@@ -23,7 +23,7 @@ const config = {
         default: "arcade",
         arcade: {
             gravity: { y: 300 },
-            debug: true,
+            // debug: true,
         }
     },
     scene: [

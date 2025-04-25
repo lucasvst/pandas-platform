@@ -26,17 +26,26 @@ export class MainScene extends Scene {
 
     create() {
 
-        this.player = new Player({ scene: this });
-        this.player.start()
-        this.cameras.main.startFollow(this.player);
-
         this.map = this.make.tilemap({ key: 'stage' });
         const tileset = this.map.addTilesetImage('pixel_art', 'tiles');
 
         this.ground = this.map.createLayer('ground', tileset);
         this.ground.setCollisionByProperty({ collides: true });
 
-        this.physics.add.collider(this.player, this.ground);
+        const objectsLayer = this.map.getObjectLayer('objects');
+        objectsLayer.objects.forEach((obj) => {
+            if (obj.name === 'player-spawn') {
+                if (this.player) { return; }
+                this.player = new Player({
+                    scene: this,
+                    x: obj.x - (obj.width * 0.5),
+                    y: obj.y - obj.height
+                });
+                this.physics.add.collider(this.player, this.ground);
+                this.player.start()
+                this.cameras.main.startFollow(this.player);
+            }
+        });
 
         this.debugGraphics = this.add.graphics();
         this.drawDebug();
@@ -47,8 +56,8 @@ export class MainScene extends Scene {
     }
 
     drawDebug () {
-        this.debugGraphics.clear();
-        this.map.renderDebug(this.debugGraphics, { tileColor: null });
+        // this.debugGraphics.clear();
+        // this.map.renderDebug(this.debugGraphics, { tileColor: null });
     }
 
 }

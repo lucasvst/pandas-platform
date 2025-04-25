@@ -9,8 +9,8 @@ export class Player extends Physics.Arcade.Sprite {
     leftKey;
     rightKey;
 
-    constructor({ scene }) {
-        super(scene, 100, 100, Player.assets.atlas.key, "idle");
+    constructor({ scene, x = 0, y = 0 }) {
+        super(scene, x, y, Player.assets.atlas.key, "idle");
         this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
