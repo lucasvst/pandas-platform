@@ -15,6 +15,7 @@ export class MainScene extends Scene {
     }
 
     preload() {
+        this.load.setBaseURL(import.meta.env.VITE_BASE_URL || "/");
         this.load.setPath("assets");
 
         this.load.tilemapTiledJSON('stage', 'tiles/stage_1.json');
