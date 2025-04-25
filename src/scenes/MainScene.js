@@ -2,11 +2,11 @@ import { Scene } from "phaser";
 
 import assetLoader from "./../core/assetLoader"
 
-import { Panda } from "./../gameobjects/Panda";
+import { Player } from "./../gameobjects/Player";
 
 export class MainScene extends Scene {
 
-    panda;
+    player;
     ground;
     map;
 
@@ -21,14 +21,14 @@ export class MainScene extends Scene {
         this.load.tilemapTiledJSON('stage', 'tiles/stage_1.json');
         this.load.image('tiles', 'tiles/pixel_art.png');
 
-        assetLoader(this, Panda)
+        assetLoader(this, Player)
     }
 
     create() {
 
-        this.panda = new Panda({ scene: this });
-        this.panda.start()
-        this.cameras.main.startFollow(this.panda);
+        this.player = new Player({ scene: this });
+        this.player.start()
+        this.cameras.main.startFollow(this.player);
 
         this.map = this.make.tilemap({ key: 'stage' });
         const tileset = this.map.addTilesetImage('pixel_art', 'tiles');
@@ -36,14 +36,14 @@ export class MainScene extends Scene {
         this.ground = this.map.createLayer('ground', tileset);
         this.ground.setCollisionByProperty({ collides: true });
 
-        this.physics.add.collider(this.panda, this.ground);
+        this.physics.add.collider(this.player, this.ground);
 
         this.debugGraphics = this.add.graphics();
         this.drawDebug();
     }
 
     update (time, delta) {
-        this.panda.update()
+        this.player.update()
     }
 
     drawDebug () {

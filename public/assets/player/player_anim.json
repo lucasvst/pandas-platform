@@ -1,29 +1,29 @@
 {
     "anims": [
         {
-            "key": "panda-running",
+            "key": "player-running",
             "type": "frames",
             "repeat": -1,
             "frameRate": 12,
             "frames": [
                 {
-                    "key": "panda_atlas",
+                    "key": "player_atlas",
                     "frame": "running-1"
                 },
                 {
-                    "key": "panda_atlas",
+                    "key": "player_atlas",
                     "frame": "running-2"
                 }
             ]
         },
         {
-            "key": "panda-jumping",
+            "key": "player-jumping",
             "type": "frames",
             "repeat": -1,
             "frameRate": 12,
             "frames": [
                 {
-                    "key": "panda_atlas",
+                    "key": "player_atlas",
                     "frame": "jumping"
                 }
             ]

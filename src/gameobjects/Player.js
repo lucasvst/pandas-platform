@@ -1,6 +1,6 @@
 import { Physics } from "phaser";
 
-export class Panda extends Physics.Arcade.Sprite {
+export class Player extends Physics.Arcade.Sprite {
 
     scene;
 
@@ -10,7 +10,7 @@ export class Panda extends Physics.Arcade.Sprite {
     rightKey;
 
     constructor({ scene }) {
-        super(scene, 100, 100, Panda.assets.atlas.key, "idle");
+        super(scene, 100, 100, Player.assets.atlas.key, "idle");
         this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
@@ -34,13 +34,13 @@ export class Panda extends Physics.Arcade.Sprite {
         this.leftKey.on('down', () => {
             this.body.setVelocityX(-150)
             this.setFlipX(true)
-            this.play('panda-running', true)
+            this.play('player-running', true)
         })
 
         this.rightKey.on('down', () => {
             this.body.setVelocityX(150)
             this.setFlipX(false)
-            this.play('panda-running', true)
+            this.play('player-running', true)
         })
     }
 
@@ -58,14 +58,14 @@ export class Panda extends Physics.Arcade.Sprite {
 
 }
 
-Panda.assets = {
+Player.assets = {
     atlas: {
-        key: "panda_atlas",
-        textureURL: "panda/panda.png",
-        atlasDataURL: "panda/panda_atlas.json"
+        key: "player_atlas",
+        textureURL: "player/player.png",
+        atlasDataURL: "player/player_atlas.json"
     },
     animations: {
-        key: "panda_anim",
-        jsonURL: "panda/panda_anim.json"
+        key: "player_anim",
+        jsonURL: "player/player_anim.json"
     }
 }
