@@ -24,28 +24,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
         this.setOnCollide(_ => { this.isOnFloor = true })
         this.setFixedRotation()
-
-        // this.spaceKey.on('down', () => {
-        //     if (!this.isOnFloor) { return }
-        //     this.isOnFloor = false
-        //     this.setVelocityY(-this.speed)
-        // })
-
-        // this.downKey.on('down', () => {
-        //     this.setVelocityY(this.speed)
-        // })
-
-        // this.leftKey.on('down', () => {
-        //     this.setVelocityX(-this.speed)
-        //     this.setFlipX(true)
-        //     this.play('player-running', true)
-        // })
-
-        // this.rightKey.on('down', () => {
-        //     this.setVelocityX(this.speed)
-        //     this.setFlipX(false)
-        //     this.play('player-running', true)
-        // })
     }
 
     update (time, delta) {
