@@ -32,6 +32,11 @@ export class MainScene extends Scene {
         this.ground = this.map.createLayer('ground', tileset);
         this.ground.setCollisionByProperty({ collides: true });
 
+        this.matter.world.convertTilemapLayer(this.ground);
+
+        this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
         const objectsLayer = this.map.getObjectLayer('objects');
         objectsLayer.objects.forEach((obj) => {
             if (obj.name === 'player-spawn') {
@@ -41,7 +46,6 @@ export class MainScene extends Scene {
                     x: obj.x - (obj.width * 0.5),
                     y: obj.y - obj.height
                 });
-                this.physics.add.collider(this.player, this.ground);
                 this.player.start()
                 this.cameras.main.startFollow(this.player);
             }

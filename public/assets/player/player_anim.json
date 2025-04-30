@@ -27,6 +27,18 @@
                     "frame": "jumping"
                 }
             ]
+        },
+        {
+            "key": "player-idle",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "player_atlas",
+                    "frame": "running-2"
+                }
+            ]
         }
     ]
 }

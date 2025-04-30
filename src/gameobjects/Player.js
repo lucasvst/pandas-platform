@@ -1,8 +1,9 @@
-import { Physics } from "phaser";
-
-export class Player extends Physics.Arcade.Sprite {
+export class Player extends Phaser.Physics.Matter.Sprite {
 
     scene;
+
+    speed = 5;
+    isOnFloor = false;
 
     spaceKey;
     downKey;
@@ -10,10 +11,9 @@ export class Player extends Physics.Arcade.Sprite {
     rightKey;
 
     constructor({ scene, x = 0, y = 0 }) {
-        super(scene, x, y, Player.assets.atlas.key, "idle");
+        super(scene.matter.world, x, y, Player.assets.atlas.key, "idle");
         this.scene = scene;
         this.scene.add.existing(this);
-        this.scene.physics.add.existing(this);
     }
 
     start () {
@@ -22,36 +22,60 @@ export class Player extends Physics.Arcade.Sprite {
         this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 
-        this.spaceKey.on('down', () => {
-            if (!this.body.onFloor()) { return }
-            this.body.setVelocityY(-150)
-        })
+        this.setOnCollide(_ => { this.isOnFloor = true })
+        this.setFixedRotation()
 
-        this.downKey.on('down', () => {
-            this.body.setVelocityY(150)
-        })
+        // this.spaceKey.on('down', () => {
+        //     if (!this.isOnFloor) { return }
+        //     this.isOnFloor = false
+        //     this.setVelocityY(-this.speed)
+        // })
 
-        this.leftKey.on('down', () => {
-            this.body.setVelocityX(-150)
-            this.setFlipX(true)
-            this.play('player-running', true)
-        })
+        // this.downKey.on('down', () => {
+        //     this.setVelocityY(this.speed)
+        // })
 
-        this.rightKey.on('down', () => {
-            this.body.setVelocityX(150)
-            this.setFlipX(false)
-            this.play('player-running', true)
-        })
+        // this.leftKey.on('down', () => {
+        //     this.setVelocityX(-this.speed)
+        //     this.setFlipX(true)
+        //     this.play('player-running', true)
+        // })
+
+        // this.rightKey.on('down', () => {
+        //     this.setVelocityX(this.speed)
+        //     this.setFlipX(false)
+        //     this.play('player-running', true)
+        // })
     }
 
     update (time, delta) {
-        if (!this.body.onFloor()) {
-            this.setFrame('jumping')
+
+        if (this.spaceKey.isDown) {
+            if (!this.isOnFloor) { return }
+            this.isOnFloor = false
+            this.setVelocityY(-this.speed)
+            this.play('player-jumping', true)
         }
+
         if (!this.leftKey.isDown && !this.rightKey.isDown) {
             this.setVelocityX(0)
-            if (this.body.onFloor()) {
-                this.stop().setFrame("idle")
+            if (this.isOnFloor) {
+                this.play("player-idle", true)
+            }
+        }
+
+        if (this.leftKey.isDown) {
+            this.setVelocityX(-this.speed)
+            this.setFlipX(true)
+            if (this.isOnFloor) {
+                this.play('player-running', true)
+            }
+        }
+        if (this.rightKey.isDown) {
+            this.setVelocityX(this.speed)
+            this.setFlipX(false)
+            if (this.isOnFloor) {
+                this.play('player-running', true)
             }
         }
     }

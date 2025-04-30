@@ -10,7 +10,7 @@ const config = {
     height: 540,
     backgroundColor: "#5E81A2",
     pixelArt: true,
-    roundPixel: false,
+    roundPixel: true,
     max: {
         width: 800,
         height: 600,
@@ -20,10 +20,10 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     physics: {
-        default: "arcade",
-        arcade: {
-            gravity: { y: 300 },
-            // debug: true,
+        default: "matter",
+        matter: {
+            gravity: { y: 1 },
+            debug: true,
         }
     },
     scene: [
