@@ -22,7 +22,7 @@ const footSensorFactory = (
 
     const footSensor = scene.matter.bodies.rectangle(
         x,
-        y + height / 2,
+        y + (height / 2) - (sensorHeight / 2),
         sensorWidth,
         sensorHeight,
         {
@@ -88,6 +88,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     update (time, delta) {
+
+        if (!this.isOnFloor) {
+            this.play('player-jumping', true)
+        }
+
         if (this.spaceKey.isDown) {
             if (!this.isOnFloor) { return }
             this.setVelocityY(-this.speed)
@@ -118,32 +123,42 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     handleCollisionStart(event) {
+
         const pairs = event.pairs;
 
         for (let i = 0; i < pairs.length; i++) {
+
             const pair = pairs[i];
+
             if (pair.bodyA === this.footSensor || pair.bodyB === this.footSensor) {
 
                 const otherBody = (pair.bodyA === this.footSensor) ? pair.bodyB : pair.bodyA;
-                this.groundContacts++;
 
-                this.isOnFloor = (this.groundContacts > 0);
+                if (!otherBody.isSensor && pair.collision.normal.y > 0) {
+                    this.groundContacts++;
+                    this.isOnFloor = (this.groundContacts > 0);
+                }
             }
         }
     }
 
     handleCollisionEnd(event) {
+
         const pairs = event.pairs;
 
         for (let i = 0; i < pairs.length; i++) {
+
             const pair = pairs[i];
 
              if (pair.bodyA === this.footSensor || pair.bodyB === this.footSensor) {
 
-                this.groundContacts--;
-                this.groundContacts = Math.max(0, this.groundContacts);
+                const otherBody = (pair.bodyA === this.footSensor) ? pair.bodyB : pair.bodyA;
 
-                this.isOnFloor = (this.groundContacts > 0);
+                if (!otherBody.isSensor) {
+                    this.groundContacts--;
+                    this.groundContacts = Math.max(0, this.groundContacts);
+                    this.isOnFloor = (this.groundContacts > 0);
+                }
             }
         }
     }
